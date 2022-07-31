@@ -8,29 +8,34 @@ export default function App() {
 
     const [dice, setDice] = React.useState(allNewDice())
     const [winRoll, setWinRoll] = React.useState(false)
+    const [currentTurn, setCurrentTurn] = React.useState('player')
+    const [computerDice, setComputerDice] = React.useState()
+    const [status, setStatus] = React.useState(`It is the ${currentTurn}'s turn`)
 
     React.useEffect(() => {
-        const rollScore = 0
-        const allDiceValues = dice.map(element => element.value)
-
-
-        if (allDiceValues.includes(4) && allDiceValues.includes(5) && allDiceValues.includes(6) ){
-            setWinRoll(true)
+        const playerScore = 0
+        const cpuScore = 0
+        console.log(dice)
+        if (currentTurn === 'player'){
+            const allDiceValues = dice.map(element => element.value)
+            if (allDiceValues.includes(4) && allDiceValues.includes(5) && allDiceValues.includes(6) ){
+                setWinRoll(true)
+                setCurrentTurn('cpu')
+            }
         }
-/*
-        if (allDiceValues has two equal){
-            rollScore = third not equal
-            Then switch to cpu
+
+        if (currentTurn === 'cpu'){
+            document.querySelector(".roll-dice").setAttribute("disabled", true)
+            console.log('should disable')
         }
-        
-        */
 
     }, [dice])
 
     function generateNewDie() {
         return {
             value: Math.ceil(Math.random() * 6),
-            id: nanoid()
+            id: nanoid(),
+            heldBy: 'cpu'
         }
     }
     
@@ -55,30 +60,53 @@ export default function App() {
             setDice(allNewDice())
         }
     }
-    
+
+
    
     
     const diceElements = dice.map(die => (
         <Die 
             key={die.id} 
             value={die.value}  
+            heldBy={die.heldBy}
         />
     ))
+
+
+
+
+
+
     
     return (
         <main>
             {winRoll && <Confetti />}
             <h1 className="title">Cee-lo</h1>
             <p className="instructions">Win order: Triple, 4-5-6, Pair plus odd value. Instant lose: 1-2-3.</p>
-            <div className="dice-container">
+            <h3>{status}</h3>
+            
+            
+            <div className='cpu-display-container'>
+                <h3>Computer Roll</h3>
+                <div className="cpu-dice-container">
                 {diceElements}
-            </div>
-            <button 
+                </div>
+                </div>
+            
+            <div className='user-display-container'>
+                <h3>User Roll</h3>
+                <div className="user-dice-container">
+                {diceElements}
+                </div>
+                </div>
+
+                <button 
                 className="roll-dice" 
                 onClick={rollDice}
             >
                 {winRoll ? "New Game" : "Roll"}
             </button>
+            
         </main>
     )
 }
