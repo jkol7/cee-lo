@@ -6,69 +6,155 @@ import '../src/style.css'
 
 export default function App() {
 
-    const [dice, setDice] = React.useState(allNewDice())
+
+    //Need to figure out how to deal with cpu dice. Use the same dice as other player? 
+    
+    
+    const [currentTurn, setCurrentTurn] = React.useState(Math.random() < 0.5 ? 'player' : 'cpu')
+    const [dice, setDice] = React.useState(allNewDice("player"))
     const [winRoll, setWinRoll] = React.useState(false)
-    const [currentTurn, setCurrentTurn] = React.useState('player')
-    const [computerDice, setComputerDice] = React.useState()
+    const [computerDice, setComputerDice] = React.useState(allNewDice("cpu"))
     const [status, setStatus] = React.useState(`It is the ${currentTurn}'s turn`)
+    const [playerScore, setPlayerScore] = React.useState(0)
+    const [cpuScore, setCPUScore] = React.useState(0)
+
+    const playerWinsMessage = `Player wins! It is the CPU's turn`
+    const computerWinsMessage = `CPU wins! It is the player's turn`
+
+
 
     React.useEffect(() => {
-        const playerScore = 0
-        const cpuScore = 0
-        console.log(dice)
+        const allDiceValues = dice.map(element => element.value)
+        const allCPUDiceValues = computerDice.map(element => element.value)
+       
+
+
+
+        console.log(currentTurn)
+        //Disable button if computer turn
+
+      /*  if (currentTurn === 'cpu'){
+        document.querySelector(".roll-dice").setAttribute("disabled", true)
+        }
+*/
+        //Check instant win (4,5,6)
+
         if (currentTurn === 'player'){
-            const allDiceValues = dice.map(element => element.value)
-            if (allDiceValues.includes(4) && allDiceValues.includes(5) && allDiceValues.includes(6) ){
+            if (allDiceValues.includes(4) && allDiceValues.includes(5) && allDiceValues.includes(6)){
                 setWinRoll(true)
-                setCurrentTurn('cpu')
+                setPlayerScore(prev => prev + 1)
+                setCurrentTurn('cpu') 
+                setStatus(playerWinsMessage)
+
             }
         }
 
         if (currentTurn === 'cpu'){
-            document.querySelector(".roll-dice").setAttribute("disabled", true)
-            console.log('should disable')
+            if (allCPUDiceValues.includes(4) && allCPUDiceValues.includes(5) && allCPUDiceValues.includes(6) ){
+                setWinRoll(true)
+                setCPUScore(prev => prev + 1)    
+                setCurrentTurn('player')  
+                setStatus(computerWinsMessage)
+            }
+    }
+
+        //Check triple win
+
+        if (currentTurn === 'player'){
+            if (allDiceValues.every(value => value === allDiceValues[0])){
+                setWinRoll(true)
+                setPlayerScore(prev => prev + 1)
+                setCurrentTurn('cpu') 
+                setStatus(playerWinsMessage)
+
+            }
         }
 
-    }, [dice])
 
-    function generateNewDie() {
+        if (currentTurn === 'cpu'){
+            if (allCPUDiceValues.every(value => value === allDiceValues[0])){
+                setWinRoll(true)
+                setCPUScore(prev => prev + 1)
+                setCurrentTurn('player') 
+                setStatus(computerWinsMessage)
+
+            }
+        }
+
+        //Check pair + 6 win
+
+        if (currentTurn === 'player' && allDiceValues.includes(6)){
+           allDiceValues.sort()
+           console.log(allDiceValues)
+            if (allDiceValues[2] === 6 && allDiceValues[0] === allDiceValues[1]){
+                setWinRoll(true)
+                setPlayerScore(prev => prev + 1)
+                setCurrentTurn('cpu') 
+                setStatus(playerWinsMessage)
+
+            }
+        }
+
+
+        if (currentTurn === 'cpu' && allCPUDiceValues.includes(6)){
+            allCPUDiceValues.sort()
+            console.log(allCPUDiceValues)
+             if (allCPUDiceValues[2] === '6' && allCPUDiceValues[0] === allCPUDiceValues[1]){
+                 setWinRoll(true)
+                 setCPUScore(prev => prev + 1)
+                 setCurrentTurn('player') 
+                 setStatus(computerWinsMessage)
+             }
+         }
+
+
+
+
+    }, [dice, currentTurn])
+
+    function generateNewDie(diceHolder) {
         return {
             value: Math.ceil(Math.random() * 6),
             id: nanoid(),
-            heldBy: 'cpu'
+            heldBy: diceHolder
         }
     }
+
+
     
-    function allNewDice() {
+    function allNewDice(diceHolder) {
         const newDice = []
         for (let i = 0; i < 3; i++) {
-            newDice.push(generateNewDie())
+            newDice.push(generateNewDie(diceHolder))
             
         }
         return newDice
     }
     
     function rollDice() {
-        if(!winRoll) {
-            setDice(oldDice => oldDice.map(die => {
-                return die.isHeld ? 
-                    die :
-                    generateNewDie()
-            }))
-        } else {
-            setWinRoll(false)
-            setDice(allNewDice())
-        }
+        
+        setDice(allNewDice("player"))
+        setComputerDice(allNewDice("cpu"))
+
+      
+        //  setDice(oldDice => oldDice.map(die => generateNewDie("player")))
     }
 
 
+
    
-    
+    const computerDiceElements = computerDice.map(die => (
+        <Die 
+            key={die.id} 
+            value={die.value}  
+            heldBy="cpu"
+        />))
+
     const diceElements = dice.map(die => (
         <Die 
             key={die.id} 
             value={die.value}  
-            heldBy={die.heldBy}
+            heldBy="player"
         />
     ))
 
@@ -80,31 +166,30 @@ export default function App() {
     
     return (
         <main>
-            {winRoll && <Confetti />}
             <h1 className="title">Cee-lo</h1>
             <p className="instructions">Win order: Triple, 4-5-6, Pair plus odd value. Instant lose: 1-2-3.</p>
             <h3>{status}</h3>
+            <span>Score</span> <h4>CPU: {cpuScore}  Player: {playerScore}</h4>
             
             
             <div className='cpu-display-container'>
                 <h3>Computer Roll</h3>
                 <div className="cpu-dice-container">
-                {diceElements}
+                {computerDiceElements}
                 </div>
                 </div>
             
             <div className='user-display-container'>
                 <h3>User Roll</h3>
                 <div className="user-dice-container">
-                {diceElements}
+                 {diceElements }
                 </div>
                 </div>
 
                 <button 
                 className="roll-dice" 
-                onClick={rollDice}
-            >
-                {winRoll ? "New Game" : "Roll"}
+                onClick={rollDice}>
+                 Roll
             </button>
             
         </main>
