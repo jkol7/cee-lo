@@ -22,7 +22,7 @@ export default function App() {
 
 
     React.useEffect(() => {
-        let diceToCheck
+        
         const allDiceValues = dice.map(element => element.value).sort()
         const allCPUDiceValues = computerDice.map(element => element.value).sort()
         setPlayerRoundPoint(0)
@@ -33,139 +33,121 @@ export default function App() {
         //Need to be able to check these for both the computer and player. Check if first win. Then check if there is a draw in any scenario, re-roll.
         //Need conditions to stop checking if any come back "true". Example: Rolled trips 1 but lost because it is dobule and 1.
         
-        checkFourFiveSix(true)
-        checkFourFiveSix(false)
+        checkFourFiveSix()
 
-        if (playerRollWin === true && cpuRollWin === true){
-            console.log("draw")
-            setPlayerRollWin(prev => !prev)
-            setCPURollWin(prev => !prev)
-            return
-        }
-        else if (playerRollWin === true){
-            console.log("player wins 456")
-            setPlayerRollWin(prev => !prev)
-            return
-        }
-        else if (cpuRollWin === true) {
-            console.log("cpu wins 456")
-            setCPURollWin(prev => !prev)
-            return
-        }
+        checkTriple()
 
+        checkPairWithSix()
 
-        checkTriple(true)
-        checkTriple(false)
+        checkOneTwoThree()
 
-
-        if (playerRollWin === true && cpuRollWin === true){
-            console.log("draw")
-            setPlayerRollWin(prev => !prev)
-            setCPURollWin(prev => !prev)
-            return
-        }
-        else if (playerRollWin === true){
-            console.log("player wins triple")
-            setPlayerRollWin(prev => !prev)
-            return
-        }
-        else if (cpuRollWin === true){
-            console.log("cpu wins triple")
-            setCPURollWin(prev => !prev)
-            return
-        }
-        checkPairWithSix(true)
-        checkPairWithSix(false)
-
-
-        if (playerRollWin === true && cpuRollWin === true){
-            console.log("draw")
-            return
-        }
-        else if (playerRollWin === true){
-            console.log("player wins pair with 6")
-            return
-        }
-        else if (cpuRollWin === true){
-            console.log("cpu wins pair with 6")
-            return
-        }
+        checkPairWithOne()
+   
 
    
 
 
         // Check instant win (4,5,6)
 
-        function checkFourFiveSix(isPlayer){
-            isPlayer ? diceToCheck = allDiceValues : diceToCheck = allCPUDiceValues
-            if (diceToCheck.includes(4) && diceToCheck.includes(5) && diceToCheck.includes(6)){
-              //  isPlayer? setStatus(`Player wins. Rolled 4, 5, 6.`) : setStatus(`CPU wins. Rolled 4, 5, 6. Player turn.`)
-                isPlayer ? setPlayerRollWin(prev => prev = true) : setCPURollWin(prev => prev = true)
-                //isPlayer ? setPlayerScore(prev => prev + 1) : setCPUScore(prev => prev + 1)
+        function checkFourFiveSix(){
+            if (allDiceValues.includes(4) && allDiceValues.includes(5) && allDiceValues.includes(6) && allCPUDiceValues.includes(4) && allCPUDiceValues.includes(5) && allCPUDiceValues.includes(6)){
+                setStatus('Draw. Both rolled 4-5-6.')
+                return
+                
             }
+            else if (allDiceValues.includes(4) && allDiceValues.includes(5) && allDiceValues.includes(6)){
+                setStatus('Player wins 4-5-6.')
+                setPlayerScore(prev => prev + 1)
+                
+            }
+
+            else if (allCPUDiceValues.includes(4) && allCPUDiceValues.includes(5) && allCPUDiceValues.includes(6)){
+                setStatus('CPU wins 4-5-6')
+                setCPUScore(prev => prev + 1)
+                
+            }
+                  
             return 
         }
 
         // Check instant win (Triple)
 
-        function checkTriple(isPlayer){
-            isPlayer ? diceToCheck = allDiceValues : diceToCheck = allCPUDiceValues
-            if (diceToCheck.every(value => value === diceToCheck[0])){
-               // isPlayer? setStatus(`Player wins. Rolled triples.`) : setStatus(`CPU wins. Rolled triples.`)
-               isPlayer ? setPlayerRollWin(prev => prev = true) : setCPURollWin(prev => prev = true)
-               // isPlayer ? setPlayerScore(prev => prev + 1) : setCPUScore(prev => prev + 1)
+        function checkTriple(){
+            
+            if (allDiceValues.every(value => value === allDiceValues[0]) && allCPUDiceValues.every(value => value === allCPUDiceValues[0])){
+                setStatus('Both rolled triples. Draw.')
+                return
+            }
+            else if (allDiceValues.every(value => value === allDiceValues[0])){
+               setStatus(`Player wins. Rolled triples.`)
+               setPlayerScore(prev => prev + 1)
+            }
+            else if (allCPUDiceValues.every(value => value === allCPUDiceValues[0])){
+                setStatus(`CPU wins. Rolled triples.`)
+                setCPUScore(prev => prev + 1)
             }
             return
         }
 
+
         // Check instant win (Pair with a six)
 
-        function checkPairWithSix(isPlayer){
-            isPlayer ? diceToCheck = allDiceValues : diceToCheck = allCPUDiceValues
-            if(diceToCheck.includes(6)){
-                diceToCheck.sort()
+        function checkPairWithSix(){
+            
+            if (allDiceValues[2] === 6 && allDiceValues[0] === allDiceValues[1] && allCPUDiceValues[2] === 6 && allCPUDiceValues[0] === allCPUDiceValues[1]){
+                setStatus('Both have pair with six draw')
+                return
             }
-
-            if (diceToCheck[2] === 6 && diceToCheck[0] === diceToCheck[1]){
-                //isPlayer? setStatus(`Player wins. Pair with 6.`) : setStatus(`CPU wins. Pair with 6.`)
-                //isPlayer ? setPlayerScore(prev => prev + 1) : setCPUScore(prev => prev + 1)
-                isPlayer ? setPlayerRollWin(prev => prev = true) : setCPURollWin(prev => prev = true)
+            else if (allDiceValues[2] === 6 && allDiceValues[0] === allDiceValues[1]){
+                setStatus('Player has pair with six win.')
+                setPlayerScore(prev => prev + 1)       
             }
+            else if(allCPUDiceValues[2] === 6 && allCPUDiceValues[0] === allCPUDiceValues[1]){
+                setStatus('CPU has pair with six win')
+                setCPUScore(prev => prev + 1)
+            }    
             return
         }
         
             // Check instant loss - 1, 2, 3
 
-            function checkOneTwoThree(isPlayer){
-                isPlayer ? diceToCheck = allDiceValues : diceToCheck = allCPUDiceValues
-                if (diceToCheck.includes(1) && diceToCheck.includes(2) && diceToCheck.includes(3)){
-                   // isPlayer? setStatus(`Player loses. Rolled 1, 2, 3.`) : setStatus(`CPU loses. Rolled 1, 2, 3.`)
-                  //  isPlayer ? setCPUScore(prev => prev + 1) : setPlayerScore(prev => prev + 1)
-                  //isPlayer ? setPlayerRollWin(false) : setCPURollWin(true)
-
+            function checkOneTwoThree(){
+                if (allDiceValues.includes(1) && allDiceValues.includes(2) && allDiceValues.includes(3) && allCPUDiceValues.includes(1) && allCPUDiceValues.includes(2) && allCPUDiceValues.includes(3)){
+                    setStatus('Both draw with 1-2-3')
+                    return
+                }
+                else if (allDiceValues.includes(1) && allDiceValues.includes(2) && allDiceValues.includes(3)){
+                  setStatus('Player loses from 1-2-3')
+                  setCPUScore(prev => prev + 1)
+              }
+              else if (allCPUDiceValues.includes(1) && allCPUDiceValues.includes(2) && allCPUDiceValues.includes(3)){
+                setStatus('CPU loses from 1-2-3')
+                setPlayerScore(prev => prev + 1)
             }
-            return
+                return
         }
 
             // Check instant loss - Pair + 1
 
-            function checkPairWithOne(isPlayer){
-                isPlayer ? diceToCheck = allDiceValues : diceToCheck = allCPUDiceValues
+            
+            function checkPairWithOne(){
 
-                if (diceToCheck.includes(1)){
-                diceToCheck.sort()
+                if (allDiceValues[0] === 1 && allDiceValues[1] === allDiceValues[2] && allCPUDiceValues[0] === 1 && allCPUDiceValues[1] === allCPUDiceValues[2]){
+                    setStatus('Pair with one draw')
+                    return
                 }
-
-                if (diceToCheck[0] === 1 && diceToCheck[1] === diceToCheck[2]){
-                   // setWinRoll(true)
-                    //isPlayer? setStatus(`Player loses. Rolled Pair with 1.`) : setStatus(`CPU loses. Rolled Pair with 1.`)
-                   // isPlayer ? setCPUScore(prev => prev + 1) : setPlayerScore(prev => prev + 1)   
-        
+                else if (allDiceValues[0] === 1 && allDiceValues[1] === allDiceValues[2]){
+                   setStatus(`Player loses. Rolled Pair with 1.`) 
+                   setPlayerScore(prev => prev + 1)        
+                }
+                else if (allCPUDiceValues[0] === 1 && allCPUDiceValues[1] === allCPUDiceValues[2]){
+                    setStatus('CPY loses. Rolled pair with 1.')
+                    setCPUScore(prev => prev + 1)
                 }
                 return
             }
 
-
+/*
             function compareRoundPoints(){
 
                 let playerPairCount = false
@@ -235,8 +217,9 @@ export default function App() {
                     }
               
             }   
+        */
+       
         
-        }
     }, [winRoll, dice])
 
 
@@ -265,7 +248,7 @@ export default function App() {
         
         setDice(allNewDice("player"))
         setComputerDice(allNewDice("cpu"))
-        setWinRoll(false)
+        setStatus('No result. Keep rolling!')
 
       
         //  setDice(oldDice => oldDice.map(die => generateNewDie("player")))
