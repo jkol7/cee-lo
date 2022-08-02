@@ -185,6 +185,67 @@ padding: 20px 0 0 0;
   box-shadow: inset 5px 5px 10px -3px rgba(0, 0, 0, 0.7);
 }
 
+
+
+.modal {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.3);
+}
+
+.modal-content {
+  background-color: hsl(0, 0%, 96%);
+  margin: 10% auto;
+  padding: 20px;
+  width: 50%;
+  box-shadow: 0 5px 8px 0 rgba(0,0,0,0.17), 0 7px 20px 0 rgba(0,0,0,0.17)
+}
+
+
+.instructionTitle {
+  font-size: 22px;
+  color:rgba(0, 0, 0, 0.9);
+  margin-bottom: 20px;
+}
+
+
+.instructionBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 40px;
+  color:rgba(0, 0, 0, 0.7);
+}
+
+.instructionHighlight {
+  color:rgba(0, 0, 0, 0.9);
+  padding-top: 15px;
+  font-size: 18px;
+}
+.instructionBody p {
+  margin-top: 20px;
+  margin-bottom: 0px;
+}
+
+.closeBtn {
+
+  color: rgb(161, 161, 161);
+  float: right;
+  font-size: 35px;
+}
+
+.closeBtn:hover, .closeBtn:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
 .hide {
   display: none;
 }

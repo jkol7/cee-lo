@@ -1,8 +1,8 @@
 import React from "react"
 import Die from "./Die"
 import {nanoid} from "nanoid"
-import Confetti from "react-confetti"
 import '../src/style.css'
+import Instructions from './Instructions'
 
 export default function App() {
 
@@ -12,6 +12,7 @@ export default function App() {
     const [status, setStatus] = React.useState("Please roll to start")
     const [playerScore, setPlayerScore] = React.useState(0)
     const [cpuScore, setCPUScore] = React.useState(0)
+    const [modalOpen, setModalOpen] = React.useState(false)
 
 
 
@@ -307,7 +308,10 @@ export default function App() {
 
 
 
+    function modalOpenClose() {
 
+        setModalOpen(prevModalOpen => !prevModalOpen)
+    }
 
 
     
@@ -315,8 +319,10 @@ export default function App() {
         <main>
             <div className='titleInstructions'>
             <h1 className="title">🎲 Cee-lo 🎲</h1>
-            <p>Instructions</p>
+            <p onClick={modalOpenClose}>Instructions</p>
             </div>
+            {modalOpen && <Instructions 
+            modalOpenClose={modalOpenClose}/>}
 
             <div className='scoreContainer'>
             <div className='playerScoreContainer'>
