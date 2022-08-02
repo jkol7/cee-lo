@@ -241,17 +241,17 @@ export default function App() {
                 }
                 else if (computerPairCount === playerPairCount){
                         if (playerRoundPoint > computerRoundPoint){
-                            setStatus(`Both rolled pairs. Player wins with ${playerRoundPoint}.`)
+                            setStatus(`Two pairs. Player wins with ${playerRoundPoint}.`)
                             setPlayerScore(prev => prev + 1)
                             return true
                         }
                         else if (computerRoundPoint > playerRoundPoint){
-                            setStatus(`Both rolled pairs. CPU wins with ${computerRoundPoint}.`)
+                            setStatus(`Two pairs. CPU wins with ${computerRoundPoint}.`)
                             setCPUScore(prev => prev + 1)
                             return true
                 }
                     else if (computerRoundPoint === playerRoundPoint){
-                        setStatus(`Both rolled the same value. Roll again.`)
+                        setStatus(`Same value. Roll again.`)
                         return true
                     }
               
@@ -313,11 +313,25 @@ export default function App() {
     
     return (
         <main>
-            <h1 className="title">Cee-lo</h1>
-            <p className="instructions">Win order: Triple, 4-5-6, Pair and 6. Instant lose: 1-2-3, Pair and 1.</p>
+            <div className='titleInstructions'>
+            <h1 className="title">🎲 Cee-lo 🎲</h1>
+            <p>Instructions</p>
+            </div>
+
+            <div className='scoreContainer'>
+            <div className='playerScoreContainer'>
+            <h5>Player</h5><h4>{playerScore}</h4>
+            </div>
+            <div className='cpuScoreContainer'>
+            <h5>CPU</h5> <h4>{cpuScore}</h4>
+            </div>
+            </div>
+
+            <div className='statusContainer'>
             <h3>{status}</h3>
-            <span>Score</span> <h4>CPU: {cpuScore}  Player: {playerScore}</h4>
-            
+            </div>
+
+
             
             <div className='cpu-display-container'>
                 <h3>Computer Roll</h3>
