@@ -7,17 +7,15 @@ import '../src/style.css'
 export default function App() {
 
     
-    const [playerTurn, setPlayerTurn] = React.useState(false)
     const [dice, setDice] = React.useState(allNewDice("player"))
-    const [winRoll, setWinRoll] = React.useState(false)
+    const [rollOver, setRollOver] = React.useState(false)
     const [computerDice, setComputerDice] = React.useState(allNewDice("cpu"))
     const [status, setStatus] = React.useState("Please roll to start")
     const [playerRoundPoint, setPlayerRoundPoint] = React.useState(0)
     const [computerRoundPoint, setComputerRoundPoint] = React.useState(0)
     const [playerScore, setPlayerScore] = React.useState(0)
     const [cpuScore, setCPUScore] = React.useState(0)
-    const [playerRollWin, setPlayerRollWin] = React.useState(false)
-    const [cpuRollWin, setCPURollWin] = React.useState(false)
+
 
 
 
@@ -25,24 +23,31 @@ export default function App() {
         
         const allDiceValues = dice.map(element => element.value).sort()
         const allCPUDiceValues = computerDice.map(element => element.value).sort()
+        let returnedIsOver = false
         setPlayerRoundPoint(0)
         setComputerRoundPoint(0)
 
      
+
+        //Need condition to stop running functions if someone wins or draws.
         
-        //Need to be able to check these for both the computer and player. Check if first win. Then check if there is a draw in any scenario, re-roll.
-        //Need conditions to stop checking if any come back "true". Example: Rolled trips 1 but lost because it is dobule and 1.
+        //Maybe assing a variable. If it is returned true from functions, then don't run the next, and instead return from UseEffect.
+      
+        returnedIsOver = checkFourFiveSix()
+        console.log(returnedIsOver)
+        console.log("1" + returnedIsOver)
+
+        !returnedIsOver && checkTriple()
+        console.log("2" + returnedIsOver)
         
-        checkFourFiveSix()
+        !rollOver && checkPairWithSix()
+        console.log("3" + rollOver)
 
-        checkTriple()
+        !rollOver && checkOneTwoThree()
+        console.log("4" + rollOver)
 
-        checkPairWithSix()
-
-        checkOneTwoThree()
-
-        checkPairWithOne()
-   
+        !rollOver && checkPairWithOne()
+        console.log("5" + rollOver)
 
    
 
@@ -52,22 +57,28 @@ export default function App() {
         function checkFourFiveSix(){
             if (allDiceValues.includes(4) && allDiceValues.includes(5) && allDiceValues.includes(6) && allCPUDiceValues.includes(4) && allCPUDiceValues.includes(5) && allCPUDiceValues.includes(6)){
                 setStatus('Draw. Both rolled 4-5-6.')
-                return
+                setRollOver(true)
+                return true
+                
                 
             }
             else if (allDiceValues.includes(4) && allDiceValues.includes(5) && allDiceValues.includes(6)){
                 setStatus('Player wins 4-5-6.')
                 setPlayerScore(prev => prev + 1)
+                setRollOver(true)
+                return true
                 
             }
 
             else if (allCPUDiceValues.includes(4) && allCPUDiceValues.includes(5) && allCPUDiceValues.includes(6)){
                 setStatus('CPU wins 4-5-6')
                 setCPUScore(prev => prev + 1)
+                setRollOver(true)
+                return true
                 
             }
                   
-            return 
+            return false
         }
 
         // Check instant win (Triple)
@@ -76,15 +87,18 @@ export default function App() {
             
             if (allDiceValues.every(value => value === allDiceValues[0]) && allCPUDiceValues.every(value => value === allCPUDiceValues[0])){
                 setStatus('Both rolled triples. Draw.')
-                return
+                return setRollOver(true)
+                
             }
             else if (allDiceValues.every(value => value === allDiceValues[0])){
                setStatus(`Player wins. Rolled triples.`)
                setPlayerScore(prev => prev + 1)
+               return setRollOver(true)
             }
             else if (allCPUDiceValues.every(value => value === allCPUDiceValues[0])){
                 setStatus(`CPU wins. Rolled triples.`)
                 setCPUScore(prev => prev + 1)
+                return setRollOver(true)
             }
             return
         }
@@ -96,15 +110,18 @@ export default function App() {
             
             if (allDiceValues[2] === 6 && allDiceValues[0] === allDiceValues[1] && allCPUDiceValues[2] === 6 && allCPUDiceValues[0] === allCPUDiceValues[1]){
                 setStatus('Both have pair with six draw')
-                return
+                return setRollOver(true)
+                
             }
             else if (allDiceValues[2] === 6 && allDiceValues[0] === allDiceValues[1]){
                 setStatus('Player has pair with six win.')
                 setPlayerScore(prev => prev + 1)       
+                return setRollOver(true)
             }
             else if(allCPUDiceValues[2] === 6 && allCPUDiceValues[0] === allCPUDiceValues[1]){
                 setStatus('CPU has pair with six win')
                 setCPUScore(prev => prev + 1)
+                return setRollOver(true)
             }    
             return
         }
@@ -114,15 +131,18 @@ export default function App() {
             function checkOneTwoThree(){
                 if (allDiceValues.includes(1) && allDiceValues.includes(2) && allDiceValues.includes(3) && allCPUDiceValues.includes(1) && allCPUDiceValues.includes(2) && allCPUDiceValues.includes(3)){
                     setStatus('Both draw with 1-2-3')
-                    return
+                    return setRollOver(true)
+                    
                 }
                 else if (allDiceValues.includes(1) && allDiceValues.includes(2) && allDiceValues.includes(3)){
                   setStatus('Player loses from 1-2-3')
                   setCPUScore(prev => prev + 1)
+                  return setRollOver(true)
               }
               else if (allCPUDiceValues.includes(1) && allCPUDiceValues.includes(2) && allCPUDiceValues.includes(3)){
                 setStatus('CPU loses from 1-2-3')
                 setPlayerScore(prev => prev + 1)
+                return setRollOver(true)
             }
                 return
         }
@@ -134,15 +154,18 @@ export default function App() {
 
                 if (allDiceValues[0] === 1 && allDiceValues[1] === allDiceValues[2] && allCPUDiceValues[0] === 1 && allCPUDiceValues[1] === allCPUDiceValues[2]){
                     setStatus('Pair with one draw')
-                    return
+                    return setRollOver(true)
+                    
                 }
                 else if (allDiceValues[0] === 1 && allDiceValues[1] === allDiceValues[2]){
                    setStatus(`Player loses. Rolled Pair with 1.`) 
-                   setPlayerScore(prev => prev + 1)        
+                   setCPUScore(prev => prev + 1)  
+                   return setRollOver(true)   
                 }
                 else if (allCPUDiceValues[0] === 1 && allCPUDiceValues[1] === allCPUDiceValues[2]){
-                    setStatus('CPY loses. Rolled pair with 1.')
-                    setCPUScore(prev => prev + 1)
+                    setStatus('CPU loses. Rolled pair with 1.')
+                    setPlayerScore(prev => prev + 1) 
+                    return setRollOver(true)
                 }
                 return
             }
@@ -220,7 +243,7 @@ export default function App() {
         */
        
         
-    }, [winRoll, dice])
+    }, [dice])
 
 
 
@@ -248,6 +271,7 @@ export default function App() {
         
         setDice(allNewDice("player"))
         setComputerDice(allNewDice("cpu"))
+        setRollOver(false)
         setStatus('No result. Keep rolling!')
 
       
