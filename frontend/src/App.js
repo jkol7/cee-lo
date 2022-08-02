@@ -8,11 +8,8 @@ export default function App() {
 
     
     const [dice, setDice] = React.useState(allNewDice("player"))
-    const [rollOver, setRollOver] = React.useState(false)
     const [computerDice, setComputerDice] = React.useState(allNewDice("cpu"))
     const [status, setStatus] = React.useState("Please roll to start")
-    const [playerRoundPoint, setPlayerRoundPoint] = React.useState(0)
-    const [computerRoundPoint, setComputerRoundPoint] = React.useState(0)
     const [playerScore, setPlayerScore] = React.useState(0)
     const [cpuScore, setCPUScore] = React.useState(0)
 
@@ -24,32 +21,48 @@ export default function App() {
         const allDiceValues = dice.map(element => element.value).sort()
         const allCPUDiceValues = computerDice.map(element => element.value).sort()
         let returnedIsOver = false
-        setPlayerRoundPoint(0)
-        setComputerRoundPoint(0)
-
-     
-
-        //Need condition to stop running functions if someone wins or draws.
         
-        //Maybe assing a variable. If it is returned true from functions, then don't run the next, and instead return from UseEffect.
+
+        // Each turn, this calls functions to determine the different winning/losing logic. 
+        // If the turn is over, returnedIsOver = true and we return before checking the next conditon.
       
         returnedIsOver = checkFourFiveSix()
-        console.log(returnedIsOver)
-        console.log("1" + returnedIsOver)
 
-        !returnedIsOver && checkTriple()
-        console.log("2" + returnedIsOver)
-        
-        !rollOver && checkPairWithSix()
-        console.log("3" + rollOver)
+        if (returnedIsOver === true){
+            return
+        }
 
-        !rollOver && checkOneTwoThree()
-        console.log("4" + rollOver)
+        returnedIsOver = checkTriple()
+      
+        if (returnedIsOver === true){
+            return
+        }
 
-        !rollOver && checkPairWithOne()
-        console.log("5" + rollOver)
+        returnedIsOver = checkPairWithSix()
 
-   
+        if (returnedIsOver === true){
+            return
+        }
+
+        returnedIsOver = checkOneTwoThree()
+
+        if (returnedIsOver === true){
+            return
+        }
+
+        returnedIsOver = checkPairWithOne()
+
+        if (returnedIsOver === true){
+            return
+        }
+
+        returnedIsOver = compareRoundPoints()
+
+        if (returnedIsOver === true){
+            return
+        }
+
+
 
 
         // Check instant win (4,5,6)
@@ -57,7 +70,6 @@ export default function App() {
         function checkFourFiveSix(){
             if (allDiceValues.includes(4) && allDiceValues.includes(5) && allDiceValues.includes(6) && allCPUDiceValues.includes(4) && allCPUDiceValues.includes(5) && allCPUDiceValues.includes(6)){
                 setStatus('Draw. Both rolled 4-5-6.')
-                setRollOver(true)
                 return true
                 
                 
@@ -65,7 +77,6 @@ export default function App() {
             else if (allDiceValues.includes(4) && allDiceValues.includes(5) && allDiceValues.includes(6)){
                 setStatus('Player wins 4-5-6.')
                 setPlayerScore(prev => prev + 1)
-                setRollOver(true)
                 return true
                 
             }
@@ -73,7 +84,6 @@ export default function App() {
             else if (allCPUDiceValues.includes(4) && allCPUDiceValues.includes(5) && allCPUDiceValues.includes(6)){
                 setStatus('CPU wins 4-5-6')
                 setCPUScore(prev => prev + 1)
-                setRollOver(true)
                 return true
                 
             }
@@ -87,20 +97,20 @@ export default function App() {
             
             if (allDiceValues.every(value => value === allDiceValues[0]) && allCPUDiceValues.every(value => value === allCPUDiceValues[0])){
                 setStatus('Both rolled triples. Draw.')
-                return setRollOver(true)
+                return true
                 
             }
             else if (allDiceValues.every(value => value === allDiceValues[0])){
                setStatus(`Player wins. Rolled triples.`)
                setPlayerScore(prev => prev + 1)
-               return setRollOver(true)
+               return true
             }
             else if (allCPUDiceValues.every(value => value === allCPUDiceValues[0])){
                 setStatus(`CPU wins. Rolled triples.`)
                 setCPUScore(prev => prev + 1)
-                return setRollOver(true)
+                return true
             }
-            return
+            return false
         }
 
 
@@ -110,20 +120,20 @@ export default function App() {
             
             if (allDiceValues[2] === 6 && allDiceValues[0] === allDiceValues[1] && allCPUDiceValues[2] === 6 && allCPUDiceValues[0] === allCPUDiceValues[1]){
                 setStatus('Both have pair with six draw')
-                return setRollOver(true)
+                return true
                 
             }
             else if (allDiceValues[2] === 6 && allDiceValues[0] === allDiceValues[1]){
                 setStatus('Player has pair with six win.')
                 setPlayerScore(prev => prev + 1)       
-                return setRollOver(true)
+                return true
             }
             else if(allCPUDiceValues[2] === 6 && allCPUDiceValues[0] === allCPUDiceValues[1]){
                 setStatus('CPU has pair with six win')
                 setCPUScore(prev => prev + 1)
-                return setRollOver(true)
+                return true
             }    
-            return
+            return false
         }
         
             // Check instant loss - 1, 2, 3
@@ -131,20 +141,20 @@ export default function App() {
             function checkOneTwoThree(){
                 if (allDiceValues.includes(1) && allDiceValues.includes(2) && allDiceValues.includes(3) && allCPUDiceValues.includes(1) && allCPUDiceValues.includes(2) && allCPUDiceValues.includes(3)){
                     setStatus('Both draw with 1-2-3')
-                    return setRollOver(true)
+                    return true
                     
                 }
                 else if (allDiceValues.includes(1) && allDiceValues.includes(2) && allDiceValues.includes(3)){
-                  setStatus('Player loses from 1-2-3')
-                  setCPUScore(prev => prev + 1)
-                  return setRollOver(true)
+                    setStatus('Player loses from 1-2-3')
+                    setCPUScore(prev => prev + 1)
+                    return true
               }
-              else if (allCPUDiceValues.includes(1) && allCPUDiceValues.includes(2) && allCPUDiceValues.includes(3)){
-                setStatus('CPU loses from 1-2-3')
-                setPlayerScore(prev => prev + 1)
-                return setRollOver(true)
+                else if (allCPUDiceValues.includes(1) && allCPUDiceValues.includes(2) && allCPUDiceValues.includes(3)){
+                    setStatus('CPU loses from 1-2-3')
+                    setPlayerScore(prev => prev + 1)
+                    return true
             }
-                return
+                return false
         }
 
             // Check instant loss - Pair + 1
@@ -154,93 +164,99 @@ export default function App() {
 
                 if (allDiceValues[0] === 1 && allDiceValues[1] === allDiceValues[2] && allCPUDiceValues[0] === 1 && allCPUDiceValues[1] === allCPUDiceValues[2]){
                     setStatus('Pair with one draw')
-                    return setRollOver(true)
+                    return true
                     
                 }
                 else if (allDiceValues[0] === 1 && allDiceValues[1] === allDiceValues[2]){
                    setStatus(`Player loses. Rolled Pair with 1.`) 
-                   setCPUScore(prev => prev + 1)  
-                   return setRollOver(true)   
+                   setCPUScore(prev => prev + 1)    
+                    return true
                 }
                 else if (allCPUDiceValues[0] === 1 && allCPUDiceValues[1] === allCPUDiceValues[2]){
                     setStatus('CPU loses. Rolled pair with 1.')
                     setPlayerScore(prev => prev + 1) 
-                    return setRollOver(true)
+                    return true
                 }
-                return
+                return false
             }
 
-/*
+
+
+
+            // If no instant win or loss, check if there is a pair. If both pairs, compare third die.
+
+
             function compareRoundPoints(){
 
                 let playerPairCount = false
                 let computerPairCount = false
+                let playerRoundPoint = 0
+                let computerRoundPoint = 0
                 
 
-                //Pair dice not necessary now because filter not needed.
+
+                // Check if there's a pair for the player. If there is, store the third die as the point.
 
                 if (allDiceValues[0] === allDiceValues[1]){
                         playerPairCount = true
-                        setPlayerRoundPoint(prevValue => prevValue = allDiceValues[2])
-                        console.log(`This is the value: ${allDiceValues[2]}`)
-
+                        playerRoundPoint = allDiceValues[2]
                     }
+
                 if (allDiceValues[1] === allDiceValues[2]){
                     playerPairCount = true
-                    setPlayerRoundPoint(prevValue => prevValue = allDiceValues[0])
-                    console.log(`This is the value: ${allDiceValues[0]}`)
-
+                    playerRoundPoint = allDiceValues[0]
                 }
+
+                // Check if there's a pair for the CPU. If there is, store the third die as the point.
+
+
                 if (allCPUDiceValues[0] === allCPUDiceValues[1]){
                         computerPairCount = true
-                        setComputerRoundPoint(prevValue => prevValue = allCPUDiceValues[2])
-                        console.log(`This is the value: ${allCPUDiceValues[2]}`)
+                        computerRoundPoint = allCPUDiceValues[2]
                     }
+
                 if (allCPUDiceValues[1] === allCPUDiceValues[2]){
                         computerPairCount = true
-                        setComputerRoundPoint(prevValue => prevValue = allCPUDiceValues[0])
-                        console.log(`This is the value: ${allCPUDiceValues[0]}`)
+                        computerRoundPoint = allCPUDiceValues[0]
                     }
                 
+                
+                // Determine who wins based on pair count. If both have pairs, then we check the round point.
 
                 if (!computerPairCount && !playerPairCount){
                         setStatus('No winner. Must re-roll.')
-                        return
+                        return true
                     }
                 else if (playerPairCount && !computerPairCount){
-                    setWinRoll(true)
                     setStatus(`Player wins with a pair.`)
                     setPlayerScore(prev => prev + 1)
                     console.log(`This is player round point : ${playerRoundPoint}`)
-                    return
+                    return true
                 }
                 else if (!playerPairCount && computerPairCount){
-                    setWinRoll(true)
                     setStatus(`CPU wins with a pair.`)
                     setCPUScore(prev => prev + 1)
                     console.log(`This is CPU round point ${computerRoundPoint}`)
-                    return
+                    return true
                 }
                 else if (computerPairCount === playerPairCount){
                         if (playerRoundPoint > computerRoundPoint){
-                            setWinRoll(true)
-                            setStatus(`Player wins with ${playerRoundPoint}.`)
+                            setStatus(`Both rolled pairs. Player wins with ${playerRoundPoint}.`)
                             setPlayerScore(prev => prev + 1)
-                            return
+                            return true
                         }
                         else if (computerRoundPoint > playerRoundPoint){
-                            setWinRoll(true)
-                            setStatus(`CPU wins with ${computerRoundPoint}.`)
+                            setStatus(`Both rolled pairs. CPU wins with ${computerRoundPoint}.`)
                             setCPUScore(prev => prev + 1)
-                            return
+                            return true
                 }
                     else if (computerRoundPoint === playerRoundPoint){
-                        setStatus(`Both rolled the same value. Roll again`)
-                        return
+                        setStatus(`Both rolled the same value. Roll again.`)
+                        return true
                     }
               
             }   
-        */
+        }
        
         
     }, [dice])
@@ -248,20 +264,19 @@ export default function App() {
 
 
 
-    function generateNewDie(diceHolder) {
+    function generateNewDie() {
         return {
             value: Math.ceil(Math.random() * 6),
-            id: nanoid(),
-            heldBy: diceHolder
+            id: nanoid()
         }
     }
 
 
     
-    function allNewDice(diceHolder) {
+    function allNewDice() {
         const newDice = []
         for (let i = 0; i < 3; i++) {
-            newDice.push(generateNewDie(diceHolder))
+            newDice.push(generateNewDie())
             
         }
         return newDice
@@ -269,13 +284,9 @@ export default function App() {
     
     function rollDice() {
         
-        setDice(allNewDice("player"))
-        setComputerDice(allNewDice("cpu"))
-        setRollOver(false)
-        setStatus('No result. Keep rolling!')
-
-      
-        //  setDice(oldDice => oldDice.map(die => generateNewDie("player")))
+        setDice(allNewDice())
+        setComputerDice(allNewDice())
+        setStatus('No result. Keep rolling!')    
     }
 
 
@@ -284,15 +295,13 @@ export default function App() {
     const computerDiceElements = computerDice.map(die => (
         <Die 
             key={die.id} 
-            value={die.value}  
-            heldBy="cpu"
+            value={die.value}
         />))
 
     const diceElements = dice.map(die => (
         <Die 
             key={die.id} 
-            value={die.value}  
-            heldBy="player"
+            value={die.value}
         />
     ))
 
