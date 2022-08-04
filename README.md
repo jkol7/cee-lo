@@ -1,5 +1,7 @@
 # Cee-lo
 
+https://cee-lo-fullstack.herokuapp.com/
+
 Play the dice game cee-lo (four-five-six) against a computer opponent. This app has multiple instant win/lose combinations that you need to roll in order to win. If there's no instant win or pairs, then the winner is the highest non-paired number.
 
 <p align="center">
