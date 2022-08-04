@@ -7,8 +7,8 @@ import Instructions from './Instructions'
 export default function App() {
 
     
-    const [dice, setDice] = React.useState(allNewDice("player"))
-    const [computerDice, setComputerDice] = React.useState(allNewDice("cpu"))
+    const [dice, setDice] = React.useState([])
+    const [computerDice, setComputerDice] = React.useState([])
     const [status, setStatus] = React.useState("Please roll to start")
     const [playerScore, setPlayerScore] = React.useState(0)
     const [cpuScore, setCPUScore] = React.useState(0)
@@ -27,6 +27,11 @@ export default function App() {
         // Each turn, this calls functions to determine the different winning/losing logic. 
         // If the turn is over, returnedIsOver = true and we return before checking the next conditon.
       
+
+       if (dice.length < 1){
+           return
+       }
+
         returnedIsOver = checkFourFiveSix()
 
         if (returnedIsOver === true){
