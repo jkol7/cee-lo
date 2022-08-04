@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js",
-    "client": "npm start --prefix frontend"
+    "client": "npm start --prefix frontend",
+    "build": "cd frontend && npm run build",
+    "install-client": "cd frontend && npm install",
+    "heroku-postbuild": "npm run install-client && npm run build"
   },
   "author": "John Kolcun",
   "license": "MIT",
