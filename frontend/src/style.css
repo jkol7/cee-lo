@@ -11,7 +11,10 @@ body {
   justify-content: center;
   align-items: flex-start;
   margin-top: 5%;
+  width: 100%;
+  min-height: 800px;
 }
+
 
 main {
   background-color: #F5F5F5;
@@ -25,6 +28,7 @@ main {
   justify-content: space-around;
   align-items: center;
 }
+
 
 .title {
   font-size: 40px;
@@ -249,4 +253,33 @@ padding: 20px 0 0 0;
 
 .hide {
   display: none;
+}
+
+
+
+@media all and (max-width: 600px){
+
+
+  body {
+    margin: 0;
+    background-color: #0B2434;
+    padding: 0;
+    font-family: 'Karla', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+  }
+
+
+  main {
+    margin-top: 1%;
+    border-radius: 5px;
+    padding: 40px 60px 40px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
 }
