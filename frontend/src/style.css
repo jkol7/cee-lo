@@ -15,11 +15,11 @@ body {
 
 main {
   background-color: #F5F5F5;
-  height: 800px;
+  height: 700px;
   width: 550px;
   max-width: 800px;
   border-radius: 5px;
-  padding: 60px;
+  padding: 40px 60px 40px 60px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -142,6 +142,7 @@ padding: 20px 0 0 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 15px;
 }
 
 .user-dice-container {

@@ -342,16 +342,15 @@ export default function App() {
             <h3>{status}</h3>
             </div>
 
-
-            
-            <div className='cpu-display-container'>
+           
+            <div className={status === "Please roll to start" ? "hide" : "cpu-display-container"}>
                 <h3>Computer Roll</h3>
                 <div className="cpu-dice-container">
                 {computerDiceElements}
                 </div>
                 </div>
-            
-            <div className='user-display-container'>
+
+                <div className={status === "Please roll to start" ? "hide" : "user-display-container"}>
                 <h3>Player Roll</h3>
                 <div className="user-dice-container">
                  {diceElements }
