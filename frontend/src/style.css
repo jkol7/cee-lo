@@ -138,10 +138,20 @@ main {
   align-items: center;
 }
 
+.winning-color {
+  background-color: lightgreen;
+}
+
+.losing-color {
+  background-color: salmon;
+}
+
 .cpu-dice-container {
   display: flex;
   gap: 20px;
   margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 10px;
 }
 
 .user-display-container {
@@ -155,6 +165,8 @@ main {
   display: flex;
   gap: 20px;
   margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 10px;
 }
 
 .die-face {
