@@ -228,6 +228,27 @@ main {
   margin-bottom: 20px;
 }
 
+.imageDescription {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 3%;
+}
+
+.instant-loss-description {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  padding-top: 3%;
+  gap: 10%;
+}
+.instructionBody img {
+  width: 200px;
+  height: 55px;
+}
+
 .instructionBody {
   display: flex;
   flex-direction: column;
@@ -239,7 +260,8 @@ main {
 .instructionHighlight {
   color: rgba(0, 0, 0, 0.9);
   padding-top: 15px;
-  font-size: 18px;
+  font-size: 20px;
+  font-weight: 600;
 }
 .instructionBody p {
   margin-top: 20px;
