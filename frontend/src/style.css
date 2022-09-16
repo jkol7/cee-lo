@@ -6,7 +6,7 @@ body {
   margin: 0;
   background-color: #0b2434;
   padding: 20px;
-  font-family: "Karla", sans-serif;
+  font-family: 'Karla', sans-serif;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -47,7 +47,7 @@ main {
 }
 
 .titleInstructions p {
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   font-weight: 400;
   margin-top: 20px;
   text-align: center;
@@ -191,7 +191,7 @@ main {
   background-color: #5035ff;
   color: white;
   font-size: 1.2rem;
-  font-family: "Karla", sans-serif;
+  font-family: 'Karla', sans-serif;
   cursor: pointer;
 }
 
@@ -217,7 +217,7 @@ main {
 .modal-content {
   background-color: hsl(0, 0%, 96%);
   margin: 5% auto;
-  padding: 20px;
+  padding: 20px 20px 50px 20px;
   width: 60%;
   box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.17), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
 }
@@ -343,7 +343,7 @@ main {
     margin: 0;
     background-color: #0b2434;
     padding: 0;
-    font-family: "Karla", sans-serif;
+    font-family: 'Karla', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;

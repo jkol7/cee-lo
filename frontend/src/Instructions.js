@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export default function Instructions(props) {
   <span className="closeBtn" onClick={props.modalOpenClose}>
@@ -79,6 +79,20 @@ export default function Instructions(props) {
           </div>
           <p className="instructionHighlight neutral-underline">Set Point</p>
           <p>Both rolls have pairs. Value is the unpaired die.</p>
+          <div className="two-col-description">
+            <div className="flex-col">
+              <img src="pairsaved.png" loading="lazy" alt="Pair winner"></img>
+              <p className="loss-type">Lower number (4) loss</p>
+            </div>
+            <div className="flex-col">
+              <img
+                src="pairwith5.png"
+                loading="lazy"
+                alt="No pair. Other user has pair."
+              ></img>
+              <p className="win-type">Higher number (5) win</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
