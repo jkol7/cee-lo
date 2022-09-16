@@ -316,6 +316,10 @@ main {
 }
 
 @media all and (max-width: 1000px) {
+  .modal-content {
+    width: 100%;
+  }
+
   .imageDescription {
     display: flex;
     flex-direction: column;
@@ -339,6 +343,22 @@ main {
   }
 }
 @media all and (max-width: 600px) {
+  .down-arrow {
+    margin-bottom: 25px;
+  }
+
+  .roll-dice {
+    height: 50px;
+    width: 160px;
+    border: none;
+    border-radius: 6px;
+    background-color: #5035ff;
+    color: white;
+    font-size: 1.2rem;
+    font-family: 'Karla', sans-serif;
+    cursor: pointer;
+  }
+
   body {
     margin: 0;
     background-color: #0b2434;
@@ -347,13 +367,12 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 5%;
+    margin-top: 2%;
   }
 
   main {
-    margin-top: 1%;
     border-radius: 5px;
-    padding: 40px 60px 40px 60px;
+    padding: 40px 60px 30px 60px;
     display: flex;
     flex-direction: column;
     justify-content: center;
