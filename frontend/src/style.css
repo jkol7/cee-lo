@@ -6,7 +6,7 @@ body {
   margin: 0;
   background-color: #0b2434;
   padding: 20px;
-  font-family: 'Karla', sans-serif;
+  font-family: "Karla", sans-serif;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -47,7 +47,7 @@ main {
 }
 
 .titleInstructions p {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 400;
   margin-top: 20px;
   text-align: center;
@@ -191,7 +191,7 @@ main {
   background-color: #5035ff;
   color: white;
   font-size: 1.2rem;
-  font-family: 'Karla', sans-serif;
+  font-family: "Karla", sans-serif;
   cursor: pointer;
 }
 
@@ -216,9 +216,9 @@ main {
 
 .modal-content {
   background-color: hsl(0, 0%, 96%);
-  margin: 10% auto;
+  margin: 5% auto;
   padding: 20px;
-  width: 50%;
+  width: 60%;
   box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.17), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
 }
 
@@ -233,39 +233,69 @@ main {
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
-  padding-top: 3%;
+  padding-top: 25px;
+  padding-right: 10px;
+  gap: 5px;
 }
 
-.instant-loss-description {
+.imageDescription .flex-col {
+  flex: 1 0 0;
+}
+.win-type {
+  background-color: lightgreen;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.loss-type {
+  background-color: salmon;
+  padding: 10px;
+  border-radius: 10px;
+}
+.two-col-description {
   display: flex;
   flex-direction: row;
   justify-content: center;
   width: 100%;
-  padding-top: 3%;
+  padding-top: 25px;
   gap: 10%;
 }
 .instructionBody img {
-  width: 200px;
-  height: 55px;
+  max-width: 100%;
+  max-height: 55px;
 }
 
 .instructionBody {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 40px;
+  padding: 0 30px;
   color: rgba(0, 0, 0, 0.7);
 }
 
 .instructionHighlight {
   color: rgba(0, 0, 0, 0.9);
-  padding-top: 15px;
+  padding-top: 5%;
   font-size: 20px;
   font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+}
+
+.win-underline {
+  text-decoration-color: lightgreen;
+}
+
+.loss-underline {
+  text-decoration-color: salmon;
+}
+
+.neutral-underline {
+  text-decoration-color: darkcyan;
 }
 .instructionBody p {
-  margin-top: 20px;
-  margin-bottom: 0px;
+  text-align: center;
+  margin: 20px 0 0 0;
 }
 
 .closeBtn {
@@ -285,12 +315,35 @@ main {
   display: none;
 }
 
+@media all and (max-width: 1000px) {
+  .imageDescription {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8%;
+  }
+  .imageDescription .flex-col {
+    margin: 15px 0;
+  }
+
+  .two-col-description .flex-col {
+    margin: 15px 0;
+  }
+  .two-col-description {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8%;
+  }
+}
 @media all and (max-width: 600px) {
   body {
     margin: 0;
     background-color: #0b2434;
     padding: 0;
-    font-family: 'Karla', sans-serif;
+    font-family: "Karla", sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;

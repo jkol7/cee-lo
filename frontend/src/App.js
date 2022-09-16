@@ -1,16 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import Die from './Die';
-import {nanoid} from 'nanoid';
-import '../src/style.css';
-import Instructions from './Instructions';
-import {BsArrowDownSquareFill} from 'react-icons/bs';
-import {IconContext} from 'react-icons';
+import React, { useEffect, useState } from "react";
+import Die from "./Die";
+import { nanoid } from "nanoid";
+import "../src/style.css";
+import Instructions from "./Instructions";
+import { BsArrowDownSquareFill } from "react-icons/bs";
+import { IconContext } from "react-icons";
 
 export default function App() {
   const [dice, setDice] = useState([]);
   const [computerDice, setComputerDice] = useState([]);
-  const [status, setStatus] = useState('Roll to start');
-  const [roundWinner, setRoundWinner] = useState('');
+  const [status, setStatus] = useState("Roll to start");
+  const [roundWinner, setRoundWinner] = useState("");
   const [playerScore, setPlayerScore] = useState(0);
   const [cpuScore, setCPUScore] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
@@ -76,16 +76,16 @@ export default function App() {
         allCPUDiceValues.includes(5) &&
         allCPUDiceValues.includes(6)
       ) {
-        setStatus('Draw. Both rolled 4-5-6.');
-        setRoundWinner('Draw');
+        setStatus("Draw. Both rolled 4-5-6.");
+        setRoundWinner("Draw");
         return true;
       } else if (
         allDiceValues.includes(4) &&
         allDiceValues.includes(5) &&
         allDiceValues.includes(6)
       ) {
-        setRoundWinner('Player');
-        setStatus('Player wins 4-5-6.');
+        setRoundWinner("Player");
+        setStatus("Player wins 4-5-6.");
         setPlayerScore((prev) => prev + 1);
         return true;
       } else if (
@@ -93,8 +93,8 @@ export default function App() {
         allCPUDiceValues.includes(5) &&
         allCPUDiceValues.includes(6)
       ) {
-        setRoundWinner('CPU');
-        setStatus('CPU wins 4-5-6');
+        setRoundWinner("CPU");
+        setStatus("CPU wins 4-5-6");
         setCPUScore((prev) => prev + 1);
         return true;
       }
@@ -109,17 +109,17 @@ export default function App() {
         allDiceValues.every((value) => value === allDiceValues[0]) &&
         allCPUDiceValues.every((value) => value === allCPUDiceValues[0])
       ) {
-        setStatus('Both rolled triples. Draw.');
+        setStatus("Both rolled triples. Draw.");
         return true;
       } else if (allDiceValues.every((value) => value === allDiceValues[0])) {
-        setRoundWinner('Player');
+        setRoundWinner("Player");
         setStatus(`Player wins. Rolled triples.`);
         setPlayerScore((prev) => prev + 1);
         return true;
       } else if (
         allCPUDiceValues.every((value) => value === allCPUDiceValues[0])
       ) {
-        setRoundWinner('CPU');
+        setRoundWinner("CPU");
         setStatus(`CPU wins. Rolled triples.`);
         setCPUScore((prev) => prev + 1);
         return true;
@@ -136,22 +136,22 @@ export default function App() {
         allCPUDiceValues[2] === 6 &&
         allCPUDiceValues[0] === allCPUDiceValues[1]
       ) {
-        setStatus('Both have pair with six. Draw.');
+        setStatus("Both have pair with six. Draw.");
         return true;
       } else if (
         allDiceValues[2] === 6 &&
         allDiceValues[0] === allDiceValues[1]
       ) {
-        setRoundWinner('Player');
-        setStatus('Player wins. Pair with six.');
+        setRoundWinner("Player");
+        setStatus("Player wins. Pair with six.");
         setPlayerScore((prev) => prev + 1);
         return true;
       } else if (
         allCPUDiceValues[2] === 6 &&
         allCPUDiceValues[0] === allCPUDiceValues[1]
       ) {
-        setRoundWinner('CPU');
-        setStatus('CPU wins. Pair with six.');
+        setRoundWinner("CPU");
+        setStatus("CPU wins. Pair with six.");
         setCPUScore((prev) => prev + 1);
         return true;
       }
@@ -169,15 +169,15 @@ export default function App() {
         allCPUDiceValues.includes(2) &&
         allCPUDiceValues.includes(3)
       ) {
-        setStatus('Draw with 1-2-3');
+        setStatus("Draw with 1-2-3");
         return true;
       } else if (
         allDiceValues.includes(1) &&
         allDiceValues.includes(2) &&
         allDiceValues.includes(3)
       ) {
-        setRoundWinner('PlayerLoser');
-        setStatus('Player loses from 1-2-3');
+        setRoundWinner("PlayerLoser");
+        setStatus("Player loses from 1-2-3");
         setCPUScore((prev) => prev + 1);
         return true;
       } else if (
@@ -185,8 +185,8 @@ export default function App() {
         allCPUDiceValues.includes(2) &&
         allCPUDiceValues.includes(3)
       ) {
-        setStatus('CPULoser');
-        setStatus('CPU loses from 1-2-3');
+        setRoundWinner("CPULoser");
+        setStatus("CPU loses from 1-2-3");
         setPlayerScore((prev) => prev + 1);
         return true;
       }
@@ -202,13 +202,13 @@ export default function App() {
         allCPUDiceValues[0] === 1 &&
         allCPUDiceValues[1] === allCPUDiceValues[2]
       ) {
-        setStatus('Draw. Pair with one.');
+        setStatus("Draw. Pair with one.");
         return true;
       } else if (
         allDiceValues[0] === 1 &&
         allDiceValues[1] === allDiceValues[2]
       ) {
-        setRoundWinner('PlayerLoser');
+        setRoundWinner("PlayerLoser");
         setStatus(`Player loses. Rolled Pair with 1.`);
         setCPUScore((prev) => prev + 1);
         return true;
@@ -216,8 +216,8 @@ export default function App() {
         allCPUDiceValues[0] === 1 &&
         allCPUDiceValues[1] === allCPUDiceValues[2]
       ) {
-        setRoundWinner('CPULoser');
-        setStatus('CPU loses. Rolled pair with 1.');
+        setRoundWinner("CPULoser");
+        setStatus("CPU loses. Rolled pair with 1.");
         setPlayerScore((prev) => prev + 1);
         return true;
       }
@@ -259,29 +259,29 @@ export default function App() {
       // Determine who wins based on pair count. If both have pairs, then we check the round point.
 
       if (!computerPairCount && !playerPairCount) {
-        setStatus('No winner. Must re-roll.');
+        setStatus("No winner. Must re-roll.");
         return true;
       } else if (playerPairCount && !computerPairCount) {
         setStatus(`Player wins with a pair.`);
-        setRoundWinner('Player');
+        setRoundWinner("Player");
         setPlayerScore((prev) => prev + 1);
         console.log(`This is player round point : ${playerRoundPoint}`);
         return true;
       } else if (!playerPairCount && computerPairCount) {
         setStatus(`CPU wins with a pair.`);
         setCPUScore((prev) => prev + 1);
-        setRoundWinner('CPU');
+        setRoundWinner("CPU");
         console.log(`This is CPU round point ${computerRoundPoint}`);
         return true;
       } else if (computerPairCount === playerPairCount) {
         if (playerRoundPoint > computerRoundPoint) {
           setStatus(`Two pairs. Player wins with ${playerRoundPoint}.`);
-          setRoundWinner('Player');
+          setRoundWinner("Player");
           setPlayerScore((prev) => prev + 1);
           return true;
         } else if (computerRoundPoint > playerRoundPoint) {
           setStatus(`Two pairs. CPU wins with ${computerRoundPoint}.`);
-          setRoundWinner('CPU');
+          setRoundWinner("CPU");
           setCPUScore((prev) => prev + 1);
           return true;
         } else if (computerRoundPoint === playerRoundPoint) {
@@ -295,33 +295,33 @@ export default function App() {
   // Sets background color of winning player if win/loss
 
   useEffect(() => {
-    if (roundWinner === 'Player') {
-      let selected = document.querySelector('.user-dice-container');
-      selected.classList.add('winning-color');
+    if (roundWinner === "Player") {
+      let selected = document.querySelector(".user-dice-container");
+      selected.classList.add("winning-color");
     }
 
-    if (roundWinner === 'CPU') {
-      let selected = document.querySelector('.cpu-dice-container');
-      selected.classList.add('winning-color');
+    if (roundWinner === "CPU") {
+      let selected = document.querySelector(".cpu-dice-container");
+      selected.classList.add("winning-color");
     }
 
-    if (roundWinner === 'CPULoser') {
-      let selected = document.querySelector('.cpu-dice-container');
-      selected.classList.add('losing-color');
+    if (roundWinner === "CPULoser") {
+      let selected = document.querySelector(".cpu-dice-container");
+      selected.classList.add("losing-color");
     }
 
-    if (roundWinner === 'PlayerLoser') {
-      let selected = document.querySelector('.user-dice-container');
-      selected.classList.add('losing-color');
+    if (roundWinner === "PlayerLoser") {
+      let selected = document.querySelector(".user-dice-container");
+      selected.classList.add("losing-color");
     }
 
-    if (roundWinner === '') {
-      let selectedPlayer = document.querySelector('.user-dice-container');
-      let selectedCPU = document.querySelector('.cpu-dice-container');
-      selectedPlayer.classList.remove('winning-color');
-      selectedCPU.classList.remove('winning-color');
-      selectedPlayer.classList.remove('losing-color');
-      selectedCPU.classList.remove('losing-color');
+    if (roundWinner === "") {
+      let selectedPlayer = document.querySelector(".user-dice-container");
+      let selectedCPU = document.querySelector(".cpu-dice-container");
+      selectedPlayer.classList.remove("winning-color");
+      selectedCPU.classList.remove("winning-color");
+      selectedPlayer.classList.remove("losing-color");
+      selectedCPU.classList.remove("losing-color");
     }
   }, [roundWinner]);
 
@@ -348,8 +348,8 @@ export default function App() {
   function rollDice() {
     setDice(allNewDice());
     setComputerDice(allNewDice());
-    setRoundWinner('');
-    setStatus('No result. Keep rolling!');
+    setRoundWinner("");
+    setStatus("No result. Keep rolling!");
   }
 
   const computerDiceElements = computerDice.map((die) => (
@@ -384,12 +384,12 @@ export default function App() {
 
       <div className="statusContainer flex-col">
         <h3>{status}</h3>
-        {status === 'Roll to start' ? (
+        {status === "Roll to start" ? (
           <IconContext.Provider
             value={{
-              color: '#2f3336',
-              size: '2.5em',
-              className: 'down-arrow',
+              color: "#2f3336",
+              size: "2.5em",
+              className: "down-arrow",
             }}
           >
             <BsArrowDownSquareFill />
@@ -401,7 +401,7 @@ export default function App() {
 
       <div
         className={
-          status === 'Roll to start' ? 'hide' : 'cpu-display-container'
+          status === "Roll to start" ? "hide" : "cpu-display-container"
         }
       >
         <h3>Computer Roll</h3>
@@ -410,7 +410,7 @@ export default function App() {
 
       <div
         className={
-          status === 'Roll to start' ? 'hide' : 'user-display-container'
+          status === "Roll to start" ? "hide" : "user-display-container"
         }
       >
         <h3>Player Roll</h3>
